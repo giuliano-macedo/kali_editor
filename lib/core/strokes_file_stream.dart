@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import "dart:io";
 
 import 'package:kali_editor/core/stroke.dart';
@@ -18,10 +19,12 @@ class _Event {
 class StrokesFileStream {
   RandomAccessFile stream;
   StreamController<_Event> queue;
+  Queue<Stroke> _cache;
   StrokesFileStream(String fileName) {
     stream = File(
       fileName,
     ).openSync(mode: FileMode.write);
+    //initialize cache
     //whenever there is a event i the queue, execute its operation
     _queueStream().listen((_Event event) {
       switch (event.op) {
@@ -45,13 +48,15 @@ class StrokesFileStream {
 
   void _write(Stroke stroke) {
     stream.writeStringSync(stroke.toCSV());
+    _cache.add(stroke);
   }
 
   void _delete() {
     //TODO:PROBLEM
-    int lineLength;
+    if (_cache.isEmpty) throw Exception("cache is empty");
+    int lineLength = _cache.removeFirst().toCSV().length;
     stream.setPositionSync(lineLength);
-    stream.writeByteSync(-1);
+    // stream.writeByteSync(-1);
   }
 
   void add(Stroke stroke) {

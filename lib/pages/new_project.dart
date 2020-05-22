@@ -95,10 +95,13 @@ class _NewProjectPageState extends State<NewProjectPage> {
           RaisedButton.icon(
             icon: const Icon(Icons.save),
             label: const Text("Save"),
-            onPressed: () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => EditorPage())),
+            onPressed: () {
+              //TODO save project state
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => EditorPage()));
+            },
           )
         ]),
       )
