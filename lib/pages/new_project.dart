@@ -14,6 +14,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
   Widget build(BuildContext context) {
     Widget form = Form(
       child: Column(
+        //TODO should be scrollable
         children: <Widget>[
           TextFormField(
             controller: nameController,
@@ -65,33 +66,26 @@ class _NewProjectPageState extends State<NewProjectPage> {
           SizedBox(
             height: 40,
           ),
-          //   InkWell(
-          //     child: ListTile(
-          //       leading: Icon(Icons.folder),
-          //       title: Text("Select a sentences.txt file"),
-          //     ),
-          //   )
         ],
       ),
     );
     return Scaffold(
         body: Column(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(top: 100),
-        child: Text(
-          "New Project",
-          style: Theme.of(context).textTheme.headline3,
-          textAlign: TextAlign.center,
-        ),
+      SizedBox(
+        height: 100,
+      ),
+      Text(
+        "New Project",
+        style: Theme.of(context).textTheme.headline3,
+        textAlign: TextAlign.center,
+      ),
+      SizedBox(
+        height: 40,
       ),
       Padding(
-          padding: EdgeInsets.only(top: 25, left: 50, right: 25),
-          child: Card(
-              elevation: 10,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: form,
-              ))),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: form,
+      ),
       Expanded(
         child: Container(),
       ),
