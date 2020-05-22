@@ -1,5 +1,6 @@
 import 'package:auto_orientation/auto_orientation.dart';
 import "package:flutter/material.dart";
+import 'package:kali_editor/pages/settings.dart';
 
 class EditorPage extends StatefulWidget {
   @override
@@ -39,8 +40,8 @@ class _EditorPageState extends State<EditorPage> {
               children: <Widget>[
                 IconButton(
                     icon: Icon(Icons.settings),
-                    onPressed: () {} //TODO functionality
-                    ),
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => SettingsPage()))),
                 const Divider(
                   height: 20,
                   thickness: 2,
