@@ -46,16 +46,18 @@ class _EditorPageState extends State<EditorPage> {
                   height: 20,
                   thickness: 2,
                 ),
-                //TODO: this icons must have a "active" functionality
                 RotatedBox(
                   quarterTurns: 1,
                   child: ToggleButtons(
                     onPressed: (index) {
-                      setState(() {
-                        for (int i = 0; i < 2; i++)
-                          selectedMode[i] = i == index;
-                      });
                       switch (index) {
+                        case 0:
+                        case 1:
+                          setState(() {
+                            for (int i = 0; i < 2; i++)
+                              selectedMode[i] = i == index;
+                          });
+                          break;
                         case 2:
                           return undo();
                         case 3:
@@ -69,10 +71,7 @@ class _EditorPageState extends State<EditorPage> {
                     borderWidth: 0,
                     children: <Widget>[
                       RotatedBox(quarterTurns: 3, child: Icon(Icons.edit)),
-                      RotatedBox(
-                          quarterTurns: 3,
-                          child: Icon(
-                              Icons.device_unknown)), //TODO : Find move icon
+                      RotatedBox(quarterTurns: 3, child: Icon(Icons.open_with)),
                       RotatedBox(quarterTurns: 3, child: Icon(Icons.undo)),
                       RotatedBox(quarterTurns: 3, child: Icon(Icons.redo)),
                       RotatedBox(quarterTurns: 3, child: Icon(Icons.undo)),
