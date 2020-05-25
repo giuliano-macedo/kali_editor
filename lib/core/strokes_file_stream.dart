@@ -29,18 +29,7 @@ class StrokesFileStream {
     else
       _parsePositions();
     //whenever there is a event in the opQueue, execute its operation
-    _queueStream().listen((_Event event) {
-      switch (event.op) {
-        case _Operation.write:
-          _write(event.data);
-          break;
-        case _Operation.delete:
-          _delete();
-          break;
-        default:
-          throw Exception("Unexpected error");
-      }
-    });
+    opQueue.stream.listen(_streamListener);
   }
 
   void _parsePositions([buffsize = 4096]) {
@@ -62,12 +51,18 @@ class StrokesFileStream {
     for (int p in ans.getRange(1, ans.length)) _positions.add(p);
   }
 
-  Stream<_Event> _queueStream() async* {
-    await for (var event in opQueue.stream) {
-      if (event.op == _Operation.stop) break;
-      yield event;
+  void _streamListener(_Event event) {
+    switch (event.op) {
+      case _Operation.write:
+        _write(event.data);
+        break;
+      case _Operation.delete:
+        _delete();
+        break;
+      case _Operation.stop:
+        opQueue.close();
+        break;
     }
-    stream.closeSync();
   }
 
   void _write(Stroke stroke) {
