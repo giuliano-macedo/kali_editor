@@ -24,7 +24,8 @@ class StrokesFileStream {
     stream = File(
       fileName,
     ).openSync(mode: FileMode.append);
-    opQueue = StreamController<_Event>();
+    opQueue = new StreamController<_Event>();
+    _positions = new Queue<int>();
     if (stream.lengthSync() == 0)
       stream.writeStringSync(Stroke.header + "\n");
     else
@@ -42,14 +43,14 @@ class StrokesFileStream {
     stream.setPositionSync(0);
     do {
       bytesRead = stream.readIntoSync(buff);
-      for (int i = 0; i < buff.length; i++) {
+      for (int i = 0; i < bytesRead; i++) {
         if (buff[i] == "\n".codeUnitAt(0)) {
-          ans.add(pos + i);
+          ans.add(pos + i + 1);
         }
       }
       pos += bytesRead;
     } while (bytesRead != 0);
-    for (int p in ans.getRange(1, ans.length)) _positions.addFirst(p);
+    for (int p in ans.getRange(0, ans.length - 1)) _positions.addFirst(p);
   }
 
   void _streamListener(_Event event) {
@@ -67,13 +68,15 @@ class StrokesFileStream {
   }
 
   void _write(Stroke stroke) {
-    _positions.addFirst(stream.positionSync());
-    stream.writeStringSync(stroke.toCSV());
+    int pos = stream.positionSync();
+    _positions.addFirst(pos);
+    stream.writeStringSync(stroke.toCSV() + "\n");
   }
 
   void _delete() {
-    if (_positions.isEmpty) throw Exception("cache is empty");
-    stream.truncateSync(_positions.removeFirst());
+    if (_positions.isEmpty) throw Exception("impossible delete again");
+    int length = _positions.removeFirst();
+    stream.truncateSync(length);
   }
 
   void add(Stroke stroke) {
