@@ -24,6 +24,7 @@ class StrokesFileStream {
     stream = File(
       fileName,
     ).openSync(mode: FileMode.append);
+    opQueue = StreamController<_Event>();
     if (stream.lengthSync() == 0)
       stream.writeStringSync(Stroke.header + "\n");
     else
@@ -48,7 +49,7 @@ class StrokesFileStream {
       }
       pos += bytesRead;
     } while (bytesRead != 0);
-    for (int p in ans.getRange(1, ans.length)) _positions.add(p);
+    for (int p in ans.getRange(1, ans.length)) _positions.addFirst(p);
   }
 
   void _streamListener(_Event event) {
@@ -66,7 +67,7 @@ class StrokesFileStream {
   }
 
   void _write(Stroke stroke) {
-    _positions.add(stream.positionSync());
+    _positions.addFirst(stream.positionSync());
     stream.writeStringSync(stroke.toCSV());
   }
 
