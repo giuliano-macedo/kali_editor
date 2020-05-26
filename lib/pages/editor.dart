@@ -29,6 +29,14 @@ class _EditorPageState extends State<EditorPage> {
       AutoOrientation.landscapeAutoMode();
       isLandscape = true;
     }
+    final mediaQuery = MediaQuery.of(context);
+    Size screenSize = mediaQuery.size;
+    final bodyHeight =
+        screenSize.height - mediaQuery.padding.top - kToolbarHeight;
+    final bodyWidth = screenSize.width;
+
+    print("dim=($bodyWidth,$bodyHeight)");
+
     return Scaffold(
         drawer: FractionallySizedBox(
           widthFactor: .1,
@@ -46,6 +54,7 @@ class _EditorPageState extends State<EditorPage> {
                   height: 20,
                   thickness: 2,
                 ),
+                //maybe slow
                 RotatedBox(
                   quarterTurns: 1,
                   child: ToggleButtons(
@@ -100,10 +109,15 @@ class _EditorPageState extends State<EditorPage> {
         ),
         body: Stack(
           children: <Widget>[
-            FractionallySizedBox(
-              widthFactor: 2,
-              heightFactor: 1,
-              child: Center(child: Container(child: Text("canvas here"))),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                width: bodyWidth * 2,
+                height: bodyHeight,
+                child: Placeholder(
+                  fallbackHeight: double.infinity,
+                ),
+              ),
             )
           ],
         ));

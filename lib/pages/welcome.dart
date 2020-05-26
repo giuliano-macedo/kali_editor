@@ -25,17 +25,21 @@ class WelcomePage extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.all(30),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-            RaisedButton.icon(
-              icon: const Icon(Icons.arrow_forward),
-              label: const Text("Next"),
-              onPressed: () => Navigator.pushReplacement(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              RaisedButton.icon(
+                icon: const Icon(Icons.arrow_forward),
+                label: const Text("Next"),
+                onPressed: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => NewProjectPage())),
-            )
-          ]),
+                    builder: (BuildContext context) => NewProjectPage(),
+                  ),
+                ),
+              ),
+            ],
+          ),
         )
       ]),
     );
