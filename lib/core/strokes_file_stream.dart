@@ -20,18 +20,25 @@ class StrokesFileStream {
   RandomAccessFile stream;
   StreamController<_Event> opQueue;
   Queue<int> _positions;
-  StrokesFileStream(String fileName) {
-    stream = File(
-      fileName,
-    ).openSync(mode: FileMode.append);
+  StreamSubscription<_Event> _subscription;
+  String fileName;
+  bool _isOpened;
+
+  StrokesFileStream(this.fileName) {
     opQueue = new StreamController<_Event>();
     _positions = new Queue<int>();
+    _isOpened = false;
+  }
+
+  void open() async {
+    stream = File(fileName).openSync(mode: FileMode.append);
     if (stream.lengthSync() == 0)
       stream.writeStringSync(Stroke.header + "\n");
     else
       _parsePositions();
     //whenever there is a event in the opQueue, execute its operation
-    opQueue.stream.listen(_streamListener);
+    _subscription = opQueue.stream.listen(_streamListener);
+    _isOpened = true;
   }
 
   void _parsePositions([buffsize = 4096]) {
@@ -88,7 +95,9 @@ class StrokesFileStream {
     for (int i = 0; i < n; i++) opQueue.add(_Event(_Operation.delete, null));
   }
 
-  void close() {
+  void close([void Function() onClose]) {
+    assert(_isOpened);
+    if (onClose != null) _subscription.onDone(onClose);
     opQueue.add(_Event(_Operation.stop, null));
   }
 }
