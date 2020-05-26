@@ -7,9 +7,13 @@ class EditorPage extends StatefulWidget {
   _EditorPageState createState() => _EditorPageState();
 }
 
+enum _Mode { edit, scroll }
+
 class _EditorPageState extends State<EditorPage> {
   List<bool> selectedMode = List.generate(6, (index) => index == 0);
+  _Mode mode = _Mode.edit;
   bool isLandscape = false;
+  ScrollController _scrollController = ScrollController();
   void undo() {
     //TODO
   }
@@ -63,8 +67,9 @@ class _EditorPageState extends State<EditorPage> {
                         case 0:
                         case 1:
                           setState(() {
-                            for (int i = 0; i < 2; i++)
-                              selectedMode[i] = i == index;
+                            selectedMode[0] = index == 0;
+                            selectedMode[1] = index == 1;
+                            mode = index == 0 ? _Mode.edit : _Mode.scroll;
                           });
                           break;
                         case 2:
@@ -109,17 +114,33 @@ class _EditorPageState extends State<EditorPage> {
         ),
         body: Stack(
           children: <Widget>[
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                width: bodyWidth * 2,
-                height: bodyHeight,
-                child: Placeholder(
-                  fallbackHeight: double.infinity,
+            GestureDetector(
+              onPanUpdate: (DragUpdateDetails details) {
+                final pos = details.localPosition;
+                final x = pos.dx + _scrollController.offset;
+                final y = pos.dy + _scrollController.offset;
+                print("${x},${y}");
+              },
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                physics: (mode == _Mode.scroll)
+                    ? const AlwaysScrollableScrollPhysics()
+                    : const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  width: bodyWidth * 2,
+                  height: bodyHeight,
+                  child: Placeholder(),
                 ),
               ),
             )
           ],
         ));
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
