@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:kali_editor/pages/editor.dart';
+import 'package:kali_editor/utils/lang_list.dart';
 
 class NewProjectPage extends StatefulWidget {
   @override
@@ -55,8 +56,8 @@ class _NewProjectPageState extends State<NewProjectPage> {
                 icon: Icon(Icons.arrow_downward),
                 onChanged: (String newValue) =>
                     setState(() => language = newValue),
-                items: ["Portuguese", "English"]
-                    .map<DropdownMenuItem<String>>((String langOption) {
+                items:
+                    LANGLIST.map<DropdownMenuItem<String>>((String langOption) {
                   return DropdownMenuItem<String>(
                       value: langOption.toLowerCase(), child: Text(langOption));
                 }).toList(),

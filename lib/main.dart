@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kali_editor/pages/editor.dart';
 import 'package:kali_editor/pages/welcome.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final isNewcomer = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
           buttonTheme: ButtonThemeData(
               buttonColor: Colors.blue, textTheme: ButtonTextTheme.primary)),
       title: 'Material App',
-      home: WelcomePage(),
+      home: isNewcomer ? WelcomePage() : EditorPage(),
     );
   }
 }
