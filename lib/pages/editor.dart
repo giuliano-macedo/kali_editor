@@ -119,7 +119,16 @@ class _EditorPageState extends State<EditorPage> {
                 final pos = details.localPosition;
                 final x = pos.dx + _scrollController.offset;
                 final y = pos.dy + _scrollController.offset;
-                print("${x},${y}");
+                print("update: $x,$y");
+              },
+              onPanStart: (DragStartDetails details) {
+                final pos = details.localPosition;
+                final x = pos.dx + _scrollController.offset;
+                final y = pos.dy + _scrollController.offset;
+                print("start: $x,$y");
+              },
+              onPanEnd: (DragEndDetails details) {
+                print("end");
               },
               child: SingleChildScrollView(
                 controller: _scrollController,
@@ -130,7 +139,9 @@ class _EditorPageState extends State<EditorPage> {
                 child: Container(
                   width: bodyWidth * 2,
                   height: bodyHeight,
-                  child: Placeholder(),
+                  child: CustomPaint(
+                    painter: MyPainter(),
+                  ),
                 ),
               ),
             )
@@ -143,4 +154,18 @@ class _EditorPageState extends State<EditorPage> {
     _scrollController.dispose();
     super.dispose();
   }
+}
+
+class MyPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black
+      ..isAntiAlias = true
+      ..strokeWidth = 1.0;
+    canvas.drawLine(Offset.zero, Offset(100, 60), paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true; //TODO
 }
