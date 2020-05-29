@@ -38,7 +38,14 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 title: Text("About"),
-                onTap: () => null, //TODO
+                onTap: () => showAboutDialog(
+                  context: context,
+                  applicationName: "Kali Editor",
+                  applicationVersion: "0.0.1",
+                  applicationIcon: null, //TODO
+                  applicationLegalese:
+                      "A tool to generate online handwriting sequences in any language, based on some list of senteces",
+                ),
               ),
             ],
           )),
