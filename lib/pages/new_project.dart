@@ -15,7 +15,6 @@ class _NewProjectPageState extends State<NewProjectPage> {
   Widget build(BuildContext context) {
     Widget form = Form(
       child: Column(
-        //TODO should be scrollable
         children: <Widget>[
           TextFormField(
             controller: nameController,
@@ -71,41 +70,46 @@ class _NewProjectPageState extends State<NewProjectPage> {
       ),
     );
     return Scaffold(
-        body: Column(children: <Widget>[
-      SizedBox(
-        height: 100,
-      ),
-      Text(
-        "New Project",
-        style: Theme.of(context).textTheme.headline3,
-        textAlign: TextAlign.center,
-      ),
-      SizedBox(
-        height: 40,
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: form,
-      ),
-      Expanded(
-        child: Container(),
-      ),
-      Padding(
-        padding: EdgeInsets.all(30),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-          RaisedButton.icon(
-            icon: const Icon(Icons.save),
-            label: const Text("Save"),
-            onPressed: () {
-              //TODO save project state
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => EditorPage()));
-            },
+      body: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 100,
+          ),
+          Text(
+            "New Project",
+            style: Theme.of(context).textTheme.headline3,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: form,
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(30),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  RaisedButton.icon(
+                    icon: const Icon(Icons.save),
+                    label: const Text("Save"),
+                    onPressed: () {
+                      //TODO save project state
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => EditorPage()));
+                    },
+                  )
+                ]),
           )
-        ]),
-      )
-    ]));
+        ],
+      ),
+    );
   }
 }

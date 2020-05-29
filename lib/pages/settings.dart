@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+import 'new_project.dart';
+
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -34,7 +36,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 title: Text("New project"),
-                onTap: () => null, //TODO
+                onTap: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => NewProjectPage(),
+                  ),
+                ),
               ),
               ListTile(
                 title: Text("About"),
