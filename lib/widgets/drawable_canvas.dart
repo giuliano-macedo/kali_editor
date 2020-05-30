@@ -8,33 +8,43 @@ Offset _addOffset(Offset offset, double x2, double y2) {
 class DrawableCanvas extends StatefulWidget {
   final Size size;
   final bool scrollable;
+  Function(Offset) onPenDown;
+  Function(Offset) onPenUpdate;
+  Function(Offset) onPenUp;
+  List<Stroke> strokes = [];
   @override
-  DrawableCanvas({@required this.scrollable, @required this.size});
+  DrawableCanvas({
+    @required this.scrollable,
+    @required this.size,
+    @required this.strokes,
+    this.onPenDown,
+    this.onPenUpdate,
+    this.onPenUp,
+  });
   _DrawableCanvasState createState() => _DrawableCanvasState();
 }
 
 class _DrawableCanvasState extends State<DrawableCanvas> {
-  List<Stroke> strokes = [];
   Offset cachedPos;
   ScrollController _scrollController = ScrollController();
 
   onStart(Offset offset) {
     final pos = _addOffset(offset, _scrollController.offset, 0);
     cachedPos = pos;
-    print("start: $pos");
+    if (widget.onPenDown != null) widget.onPenDown(pos);
   }
 
   onUpdate(Offset offset) {
     setState(() {
       final pos = _addOffset(offset, _scrollController.offset, 0);
-      strokes.add(Stroke.fromOffset(cachedPos, pos, 1)); //TODO penup
+      widget.strokes.add(Stroke.fromOffset(cachedPos, pos, 1)); //TODO penup
       cachedPos = pos;
-      print("update: $pos");
+      if (widget.onPenUpdate != null) widget.onPenUpdate(pos);
     });
   }
 
   onEnd() {
-    print("end $cachedPos");
+    if (widget.onPenUp != null) widget.onPenUp(cachedPos);
   }
 
   @override
@@ -57,7 +67,7 @@ class _DrawableCanvasState extends State<DrawableCanvas> {
               width: widget.size.width,
               height: widget.size.height,
               child: CustomPaint(
-                painter: _MyPainter(strokes),
+                painter: _MyPainter(widget.strokes),
               ),
             ),
           ),

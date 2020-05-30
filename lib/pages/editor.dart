@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:auto_orientation/auto_orientation.dart';
 import "package:flutter/material.dart";
+import 'package:kali_editor/core/stroke.dart';
 import 'package:kali_editor/pages/settings.dart';
 import "package:kali_editor/widgets/drawable_canvas.dart";
 
@@ -10,13 +13,21 @@ class EditorPage extends StatefulWidget {
 
 class _EditorPageState extends State<EditorPage> {
   List<bool> selectedMode = List.generate(6, (index) => index == 0);
+  List<Stroke> strokes = [];
+  Queue<Stroke> undoCache = Queue<Stroke>();
   bool isLandscape = false;
   void undo() {
-    //TODO
+    setState(() {
+      if (strokes.isNotEmpty) undoCache.add(strokes.removeLast());
+    });
   }
+
   void redo() {
-    //TODO
+    setState(() {
+      if (undoCache.isNotEmpty) strokes.add(undoCache.removeLast());
+    });
   }
+
   void undoPlus() {
     //TODO
   }
@@ -64,7 +75,6 @@ class _EditorPageState extends State<EditorPage> {
                         setState(() {
                           selectedMode[0] = index == 0;
                           selectedMode[1] = index == 1;
-                          print("editor:${!selectedMode[0]}");
                         });
                         break;
                       case 2:
@@ -110,6 +120,8 @@ class _EditorPageState extends State<EditorPage> {
       body: DrawableCanvas(
         scrollable: !selectedMode[0],
         size: Size(bodyWidth * 2, bodyHeight),
+        strokes: strokes,
+        onPenDown: (Offset offset) => undoCache.clear(),
       ),
     );
   }
