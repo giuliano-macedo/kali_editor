@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import "package:flutter/material.dart";
+import 'package:kali_editor/providers/global_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:yaml/yaml.dart';
 
 import 'new_project.dart';
@@ -11,8 +13,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool isDarkMode = false; //TODO:Change to provider
-  String projectPath = "/mnt/storage/todo";
   Map appConfig;
 
   @override
@@ -25,6 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final globalProvider = Provider.of<GlobalProvider>(context, listen: false);
     return Container(
       child: Scaffold(
           appBar: AppBar(
@@ -33,19 +34,21 @@ class _SettingsPageState extends State<SettingsPage> {
           body: ListView(
             children: <Widget>[
               SwitchListTile(
-                value: isDarkMode,
+                value: globalProvider.isDarkMode,
                 title: Text("Dark mode"),
-                onChanged: (value) => setState(() => isDarkMode = value),
+                onChanged: (value) =>
+                    setState(() => globalProvider.isDarkMode = value),
               ),
               const Divider(
                 height: 20,
                 thickness: 2,
               ),
-              ListTile(
-                title: Text("Project path"),
-                trailing: Text(projectPath),
-                onTap: () => null, //TODO
-              ),
+              // REMOVED TO WASTE LESS TIME IN DEV
+              // ListTile(
+              //   title: Text("Project path"),
+              //   trailing: Text("/mnt/storage/todo"),
+              //   onTap: () => null,
+              // ),
               ListTile(
                 title: Text("New project"),
                 onTap: () => Navigator.pushReplacement(
