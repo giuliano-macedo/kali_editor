@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kali_editor/pages/editor.dart';
 import 'package:kali_editor/pages/welcome.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (ctx) => GlobalProvider(),
+          create: (ctx) => GlobalProvider("globalProvider.json"),
         ),
       ],
       child: MyMaterialApp(),
