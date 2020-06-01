@@ -116,5 +116,9 @@ class _MyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true; //TODO
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    //its ok this way, because you can't change strokes elements, only add and remove.
+    _MyPainter old = oldDelegate;
+    return old.strokes.length == this.strokes.length;
+  }
 }
