@@ -57,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               context: context,
                               applicationName: "Kali Editor",
                               applicationVersion: snapshot.data.version,
-                              applicationIcon: null, //TODO
+                              applicationIcon: null, //TODO add appicon
                               applicationLegalese:
                                   "A tool to generate online handwriting sequences in any language, based on some list of senteces",
                             ),

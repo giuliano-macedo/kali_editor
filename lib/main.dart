@@ -1,4 +1,4 @@
-import 'dart:io';
+// TODO ad read/write permissions in android/ios
 
 import 'package:flutter/material.dart';
 import 'package:kali_editor/pages/editor.dart';
