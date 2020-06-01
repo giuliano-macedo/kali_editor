@@ -33,7 +33,6 @@ class LanguagePickerFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errColor = Theme.of(context).errorColor;
     return FormField<String>(
       initialValue: "",
       validator: validator,

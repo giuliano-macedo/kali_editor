@@ -50,6 +50,21 @@ class _NewProjectPageState extends State<NewProjectPage> {
     );
   }
 
+  void _submit() {
+    //TODO save project state
+    if (!_formKey.currentState.validate()) return;
+
+    print("VALID:${[nameController.text, sentencesPath, language]}");
+
+    return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => EditorPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,26 +90,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
                   RaisedButton.icon(
                     icon: const Icon(Icons.save),
                     label: const Text("Save"),
-                    onPressed: () {
-                      //TODO save project state
-                      if (!_formKey.currentState.validate()) {
-                        print("NOT VALID");
-                        return;
-                      }
-                      print("VALID:${[
-                        nameController.text,
-                        sentencesPath,
-                        language
-                      ]}");
-
-                      return;
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => EditorPage(),
-                        ),
-                      );
-                    },
+                    onPressed: _submit,
                   )
                 ]),
           )
