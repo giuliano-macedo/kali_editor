@@ -35,35 +35,12 @@ class _NewProjectPageState extends State<NewProjectPage> {
           ),
           SizedBox(height: 15),
           LanguagePickerFormField(
-              validator: (txt) =>
-                  txt.isEmpty ? "Please select a language." : null,
-              onSaved: (txt) => language = txt,
-              hintText: "Project written language",
-              labelText: "Written Language"),
-          // FormField(
-          //   validator: (txt) =>
-          //       txt.isEmpty ? "Please select a language." : null,
-          //   builder: (FormFieldState<String> state) => InputDecorator(
-          //     decoration: InputDecoration(
-          //         icon: Icon(Icons.language), labelText: "Project language"),
-          //     isEmpty: language == "",
-          //     child: DropdownButtonHideUnderline(
-          //         child: DropdownButton<String>(
-          //       value: language,
-          //       hint: Text("Selecte a language"),
-          //       icon: Icon(Icons.arrow_downward),
-          //       onChanged: (String newValue) =>
-          //           setState(() => language = newValue),
-          //       items:
-          //           LANGLIST.map<DropdownMenuItem<String>>((String langOption) {
-          //         return DropdownMenuItem<String>(
-          //           value: langOption.toLowerCase(),
-          //           child: Text(langOption),
-          //         );
-          //       }).toList(),
-          //     )),
-          //   ),
-          // ),
+            validator: (txt) =>
+                txt.isEmpty ? "Please select a language." : null,
+            onSaved: (txt) => language = txt,
+            hintText: "Project written language",
+            labelText: "Written Language",
+          ),
           SizedBox(height: 40),
         ],
       ),
