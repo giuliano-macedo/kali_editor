@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (ctx) => GlobalProvider("globalProvider.json"),
+          create: (ctx) => GlobalProvider(),
         ),
       ],
       child: MyMaterialApp(),

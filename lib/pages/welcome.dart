@@ -1,10 +1,13 @@
 import "package:flutter/material.dart";
+import 'package:kali_editor/providers/global_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'new_project.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final globalProvider = Provider.of<GlobalProvider>(context, listen: false);
     return Scaffold(
       body: Column(children: <Widget>[
         Padding(
@@ -31,12 +34,15 @@ class WelcomePage extends StatelessWidget {
               RaisedButton.icon(
                 icon: const Icon(Icons.arrow_forward),
                 label: const Text("Next"),
-                onPressed: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => NewProjectPage(),
-                  ),
-                ),
+                onPressed: () {
+                  globalProvider.isNewcomer = false;
+                  return Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => NewProjectPage(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

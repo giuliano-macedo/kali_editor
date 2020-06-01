@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import "package:flutter/material.dart";
 import 'package:kali_editor/providers/global_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:yaml/yaml.dart';
+import "package:package_info/package_info.dart";
 
 import 'new_project.dart';
 
@@ -13,16 +11,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  Map appConfig;
-
-  @override
-  void initState() {
-    File("../../pubspec.yaml")
-        .readAsString()
-        .then((String content) => appConfig = loadYaml(content));
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final globalProvider = Provider.of<GlobalProvider>(context, listen: false);
@@ -58,16 +46,22 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ),
-              ListTile(
-                title: Text("About"),
-                onTap: () => showAboutDialog(
-                  context: context,
-                  applicationName: "Kali Editor",
-                  applicationVersion: appConfig["version"],
-                  applicationIcon: null, //TODO
-                  applicationLegalese:
-                      "A tool to generate online handwriting sequences in any language, based on some list of senteces",
-                ),
+              FutureBuilder(
+                future: PackageInfo.fromPlatform(),
+                builder: (_, AsyncSnapshot<PackageInfo> snapshot) =>
+                    snapshot.connectionState != ConnectionState.done
+                        ? Container()
+                        : ListTile(
+                            title: Text("About"),
+                            onTap: () => showAboutDialog(
+                              context: context,
+                              applicationName: "Kali Editor",
+                              applicationVersion: snapshot.data.version,
+                              applicationIcon: null, //TODO
+                              applicationLegalese:
+                                  "A tool to generate online handwriting sequences in any language, based on some list of senteces",
+                            ),
+                          ),
               ),
             ],
           )),
