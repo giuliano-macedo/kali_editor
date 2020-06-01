@@ -118,11 +118,12 @@ class _EditorPageState extends State<EditorPage> {
         ],
       ),
       body: DrawableCanvas(
-        scrollable: !selectedMode[0],
-        size: Size(bodyWidth * 2, bodyHeight),
-        strokes: strokes,
-        onPenDown: (Offset offset) => undoCache.clear(),
-      ),
+          scrollable: !selectedMode[0],
+          size: Size(bodyWidth * 2, bodyHeight),
+          strokes: strokes,
+          onPenDown: (Offset offset) => undoCache.clear(),
+          penDownColor: Theme.of(context).textTheme.bodyText1.color,
+          penUpColor: Colors.grey),
     );
   }
 }

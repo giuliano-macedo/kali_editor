@@ -8,19 +8,22 @@ Offset _addOffset(Offset offset, double x2, double y2) {
 class DrawableCanvas extends StatefulWidget {
   final Size size;
   final bool scrollable;
-  Function(Offset) onPenDown;
-  Function(Offset) onPenUpdate;
-  Function(Offset) onPenUp;
-  List<Stroke> strokes = [];
+  final Function(Offset) onPenDown;
+  final Function(Offset) onPenUpdate;
+  final Function(Offset) onPenUp;
+  final List<Stroke> strokes;
+  final Color penDownColor;
+  final Color penUpColor;
   @override
-  DrawableCanvas({
-    @required this.scrollable,
-    @required this.size,
-    @required this.strokes,
-    this.onPenDown,
-    this.onPenUpdate,
-    this.onPenUp,
-  });
+  DrawableCanvas(
+      {@required this.scrollable,
+      @required this.size,
+      @required this.strokes,
+      this.onPenDown,
+      this.onPenUpdate,
+      this.onPenUp,
+      this.penDownColor,
+      this.penUpColor});
   _DrawableCanvasState createState() => _DrawableCanvasState();
 }
 
@@ -67,7 +70,11 @@ class _DrawableCanvasState extends State<DrawableCanvas> {
               width: widget.size.width,
               height: widget.size.height,
               child: CustomPaint(
-                painter: _MyPainter(widget.strokes),
+                painter: _MyPainter(
+                  widget.strokes,
+                  penUpColor: widget.penUpColor,
+                  penDownColor: widget.penDownColor,
+                ),
               ),
             ),
           ),
@@ -85,15 +92,17 @@ class _DrawableCanvasState extends State<DrawableCanvas> {
 
 class _MyPainter extends CustomPainter {
   final List<Stroke> strokes;
-  _MyPainter(this.strokes);
+  final Color penUpColor;
+  final Color penDownColor;
+  _MyPainter(this.strokes, {this.penUpColor, this.penDownColor});
   @override
   void paint(Canvas canvas, Size size) {
     final paint1 = Paint()
-      ..color = Colors.black
+      ..color = penDownColor
       ..isAntiAlias = true
       ..strokeWidth = 1.0;
     final paint2 = Paint()
-      ..color = Colors.grey
+      ..color = penUpColor
       ..isAntiAlias = true
       ..strokeWidth = 1.0;
 
