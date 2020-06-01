@@ -37,6 +37,7 @@ class FilePickerFormField extends StatelessWidget {
           decoration: InputDecoration(
             icon: Icon(Icons.folder),
             labelText: state.value.isNotEmpty ? labelText : hintText,
+            errorText: state.hasError ? state.errorText : null,
           ),
           isEmpty: state.value.isEmpty,
           child: state.value.isEmpty ? Container() : Text(state.value),

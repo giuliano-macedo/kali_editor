@@ -12,13 +12,16 @@ class _NewProjectPageState extends State<NewProjectPage> {
   final nameController = TextEditingController();
   String sentencesPath;
   String language;
+  final _formKey = GlobalKey<FormState>();
   _buildForm() {
     return Form(
+      key: _formKey,
       child: Column(
         children: <Widget>[
           TextFormField(
             controller: nameController,
-            validator: (txt) => txt.isEmpty ? "Please fill this field." : null,
+            validator: (txt) =>
+                txt.isEmpty ? "Please set the project name." : null,
             decoration: InputDecoration(
               icon: Icon(Icons.edit),
               labelText: "Project name",
@@ -74,6 +77,17 @@ class _NewProjectPageState extends State<NewProjectPage> {
                     label: const Text("Save"),
                     onPressed: () {
                       //TODO save project state
+                      if (!_formKey.currentState.validate()) {
+                        print("NOT VALID");
+                        return;
+                      }
+                      print("VALID:${[
+                        nameController.text,
+                        sentencesPath,
+                        language
+                      ]}");
+
+                      return;
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

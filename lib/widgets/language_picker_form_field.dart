@@ -33,6 +33,7 @@ class LanguagePickerFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final errColor = Theme.of(context).errorColor;
     return FormField<String>(
       initialValue: "",
       validator: validator,
@@ -41,11 +42,13 @@ class LanguagePickerFormField extends StatelessWidget {
         onTap: () => _openLanguagePickerDialog(context).then((String val) {
           if (val == null || val.isEmpty) return;
           state.didChange(val);
+          state.save();
         }),
         child: InputDecorator(
           decoration: InputDecoration(
             icon: Icon(Icons.language),
             labelText: state.value.isNotEmpty ? labelText : hintText,
+            errorText: state.hasError ? state.errorText : null,
           ),
           isEmpty: state.value.isEmpty,
           child: state.value.isEmpty ? Container() : Text(state.value),
