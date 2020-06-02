@@ -15,6 +15,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
   String name;
   String sentencesPath;
   String language;
+  _clearFocus() => FocusScope.of(context).requestFocus(new FocusNode());
   final _formKey = GlobalKey<FormState>();
   _buildForm() {
     return Form(
@@ -35,7 +36,10 @@ class _NewProjectPageState extends State<NewProjectPage> {
             onFieldSubmitted: (txt) {
               //onFieldSubmitted does not call state.save(), so onSaved won't work
               name = txt;
-              FocusScope.of(context).requestFocus(sentencesNode);
+              if (sentencesPath == null)
+                FocusScope.of(context).requestFocus(sentencesNode);
+              else
+                _clearFocus();
             },
             textInputAction: TextInputAction.next,
             validator: (txt) =>
@@ -52,7 +56,10 @@ class _NewProjectPageState extends State<NewProjectPage> {
             validator: (txt) => txt.isEmpty ? "Please pick a file." : null,
             onSaved: (txt) {
               sentencesPath = txt;
-              FocusScope.of(context).requestFocus(languageNode);
+              if (language == null)
+                FocusScope.of(context).requestFocus(languageNode);
+              else
+                _clearFocus();
             },
             hintText: "Project sentences.txt file",
             labelText: "Sentences file",
@@ -65,7 +72,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
                 txt.isEmpty ? "Please select a language." : null,
             onSaved: (txt) {
               language = txt;
-              FocusScope.of(context).requestFocus(new FocusNode());
+              _clearFocus();
             },
             hintText: "Project written language",
             labelText: "Written Language",
@@ -77,6 +84,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
   }
 
   void _submit() {
+    _clearFocus();
     //TODO save project state
     if (!_formKey.currentState.validate()) return;
 
