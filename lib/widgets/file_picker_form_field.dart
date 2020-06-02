@@ -1,3 +1,6 @@
+// to add focus node, it's hard
+// https://blog.bam.tech/developer-news/build-a-flutter-form-with-custom-input-types
+
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';

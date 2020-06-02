@@ -17,9 +17,20 @@ class _NewProjectPageState extends State<NewProjectPage> {
     return Form(
       key: _formKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          MediaQuery.of(context).orientation == Orientation.portrait
+              ? SizedBox(height: 130)
+              : Container(),
+          Text(
+            "New Project",
+            style: Theme.of(context).textTheme.headline3,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 30),
           TextFormField(
             controller: nameController,
+            textInputAction: TextInputAction.next,
             validator: (txt) =>
                 txt.isEmpty ? "Please set the project name." : null,
             decoration: InputDecoration(
@@ -28,7 +39,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
               hintText: "Name of the project",
             ),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           FilePickerFormField(
             validator: (txt) => txt.isEmpty ? "Please pick a file." : null,
             onSaved: (txt) => sentencesPath = txt,
@@ -69,30 +80,28 @@ class _NewProjectPageState extends State<NewProjectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          SizedBox(height: 100),
-          Text(
-            "New Project",
-            style: Theme.of(context).textTheme.headline3,
-            textAlign: TextAlign.center,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: _buildForm(),
+              ),
+            ),
           ),
-          SizedBox(height: 40),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: _buildForm(),
-          ),
-          Expanded(child: Container()),
           Padding(
             padding: EdgeInsets.all(30),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  RaisedButton.icon(
-                    icon: const Icon(Icons.save),
-                    label: const Text("Save"),
-                    onPressed: _submit,
-                  )
-                ]),
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                RaisedButton.icon(
+                  icon: const Icon(Icons.save),
+                  label: const Text("Save"),
+                  onPressed: _submit,
+                )
+              ],
+            ),
           )
         ],
       ),
