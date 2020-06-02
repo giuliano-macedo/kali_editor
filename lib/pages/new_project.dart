@@ -9,7 +9,7 @@ class NewProjectPage extends StatefulWidget {
 }
 
 class _NewProjectPageState extends State<NewProjectPage> {
-  final nameController = TextEditingController();
+  String name;
   String sentencesPath;
   String language;
   final _formKey = GlobalKey<FormState>();
@@ -29,7 +29,11 @@ class _NewProjectPageState extends State<NewProjectPage> {
           ),
           const SizedBox(height: 30),
           TextFormField(
-            controller: nameController,
+            onFieldSubmitted: (txt) {
+              //onFieldSubmitted does not call state.save(), so onSaved won't work
+              name = txt;
+              FocusScope.of(context).unfocus();
+            },
             textInputAction: TextInputAction.next,
             validator: (txt) =>
                 txt.isEmpty ? "Please set the project name." : null,
@@ -65,7 +69,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
     //TODO save project state
     if (!_formKey.currentState.validate()) return;
 
-    print("VALID:${[nameController.text, sentencesPath, language]}");
+    print("VALID:${[name, sentencesPath, language]}");
 
     return;
     Navigator.pushReplacement(
