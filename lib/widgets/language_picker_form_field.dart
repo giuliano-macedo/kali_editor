@@ -6,6 +6,7 @@ class LanguagePickerFormField extends StatelessWidget {
   final Function(String) onSaved;
   final String labelText;
   final String hintText;
+  final FocusNode focusNode;
 
   const LanguagePickerFormField({
     Key key,
@@ -13,6 +14,7 @@ class LanguagePickerFormField extends StatelessWidget {
     this.onSaved,
     this.labelText,
     this.hintText,
+    this.focusNode,
   }) : super(key: key);
 
   Future<String> _openLanguagePickerDialog(BuildContext context) =>
@@ -44,6 +46,7 @@ class LanguagePickerFormField extends StatelessWidget {
           state.save();
         }),
         child: InputDecorator(
+          isFocused: focusNode.hasFocus,
           decoration: InputDecoration(
             icon: Icon(Icons.language),
             labelText: state.value.isNotEmpty ? labelText : hintText,

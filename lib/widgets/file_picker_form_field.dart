@@ -1,4 +1,4 @@
-// to add focus node, it's hard
+// to add focus node with focusScope support, it's hard
 // https://blog.bam.tech/developer-news/build-a-flutter-form-with-custom-input-types
 
 import 'dart:io';
@@ -12,12 +12,14 @@ class FilePickerFormField extends StatelessWidget {
   final String labelText;
   final String hintText;
   final List<String> allowedExtensions;
+  final FocusNode focusNode;
   const FilePickerFormField(
       {Key key,
       this.validator,
       this.onSaved,
       this.labelText,
       this.hintText,
+      this.focusNode,
       this.allowedExtensions})
       : super(key: key);
 
@@ -37,6 +39,7 @@ class FilePickerFormField extends StatelessWidget {
           state.save();
         }),
         child: InputDecorator(
+          isFocused: focusNode.hasFocus,
           decoration: InputDecoration(
             icon: Icon(Icons.folder),
             labelText: state.value.isNotEmpty ? labelText : hintText,

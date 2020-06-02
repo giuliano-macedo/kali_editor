@@ -9,6 +9,9 @@ class NewProjectPage extends StatefulWidget {
 }
 
 class _NewProjectPageState extends State<NewProjectPage> {
+  FocusNode sentencesNode = FocusNode();
+  FocusNode languageNode = FocusNode();
+
   String name;
   String sentencesPath;
   String language;
@@ -32,7 +35,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
             onFieldSubmitted: (txt) {
               //onFieldSubmitted does not call state.save(), so onSaved won't work
               name = txt;
-              FocusScope.of(context).unfocus();
+              FocusScope.of(context).requestFocus(sentencesNode);
             },
             textInputAction: TextInputAction.next,
             validator: (txt) =>
@@ -45,17 +48,25 @@ class _NewProjectPageState extends State<NewProjectPage> {
           ),
           const SizedBox(height: 15),
           FilePickerFormField(
+            focusNode: sentencesNode,
             validator: (txt) => txt.isEmpty ? "Please pick a file." : null,
-            onSaved: (txt) => sentencesPath = txt,
+            onSaved: (txt) {
+              sentencesPath = txt;
+              FocusScope.of(context).requestFocus(languageNode);
+            },
             hintText: "Project sentences.txt file",
             labelText: "Sentences file",
             allowedExtensions: ["txt", "csv"],
           ),
           SizedBox(height: 15),
           LanguagePickerFormField(
+            focusNode: languageNode,
             validator: (txt) =>
                 txt.isEmpty ? "Please select a language." : null,
-            onSaved: (txt) => language = txt,
+            onSaved: (txt) {
+              language = txt;
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
             hintText: "Project written language",
             labelText: "Written Language",
           ),
@@ -100,8 +111,8 @@ class _NewProjectPageState extends State<NewProjectPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 RaisedButton.icon(
-                  icon: const Icon(Icons.save),
-                  label: const Text("Save"),
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add project"),
                   onPressed: _submit,
                 )
               ],
@@ -110,5 +121,12 @@ class _NewProjectPageState extends State<NewProjectPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    sentencesNode.dispose();
+    languageNode.dispose();
+    super.dispose();
   }
 }
