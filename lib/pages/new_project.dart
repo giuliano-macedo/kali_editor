@@ -9,13 +9,15 @@ class NewProjectPage extends StatefulWidget {
 }
 
 class _NewProjectPageState extends State<NewProjectPage> {
+  FocusNode _dummyFocusNode = FocusNode();
   FocusNode sentencesNode = FocusNode();
   FocusNode languageNode = FocusNode();
 
   String name;
   String sentencesPath;
   String language;
-  _clearFocus() => FocusScope.of(context).requestFocus(new FocusNode());
+  _clearFocus() => FocusScope.of(context).requestFocus(_dummyFocusNode);
+
   final _formKey = GlobalKey<FormState>();
   _buildForm() {
     return Form(
@@ -135,6 +137,7 @@ class _NewProjectPageState extends State<NewProjectPage> {
   void dispose() {
     sentencesNode.dispose();
     languageNode.dispose();
+    _dummyFocusNode.dispose();
     super.dispose();
   }
 }
