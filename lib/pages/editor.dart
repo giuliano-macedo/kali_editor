@@ -4,7 +4,10 @@ import 'package:auto_orientation/auto_orientation.dart';
 import "package:flutter/material.dart";
 import 'package:kali_editor/core/stroke.dart';
 import 'package:kali_editor/pages/settings.dart';
+import 'package:kali_editor/providers/global_provider.dart';
+import 'package:kali_editor/providers/project.dart';
 import "package:kali_editor/widgets/drawable_canvas.dart";
+import 'package:provider/provider.dart';
 
 class EditorPage extends StatefulWidget {
   @override
@@ -36,6 +39,8 @@ class _EditorPageState extends State<EditorPage> {
   }
   @override
   Widget build(BuildContext context) {
+    final p = Provider.of<Project>(context);
+    print("${[p.name, p.sentences, p.language]}");
     if (!isLandscape) {
       //not sure if needed
       AutoOrientation.landscapeAutoMode();
@@ -105,7 +110,10 @@ class _EditorPageState extends State<EditorPage> {
       ),
       appBar: AppBar(
         centerTitle: true,
-        title: Text("<current strokes>"),
+        title: InkWell(
+          child: Text("<current strokes>"),
+          onTap: () => null, //todo maybe
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_left),
           onPressed: () {}, //TODO: add functionality

@@ -1,7 +1,10 @@
+import 'package:kali_editor/providers/global_provider.dart';
+import 'package:kali_editor/providers/project.dart';
 import "package:kali_editor/widgets/file_picker_form_field.dart";
 import "package:flutter/material.dart";
 import 'package:kali_editor/pages/editor.dart';
 import 'package:kali_editor/widgets/language_picker_form_field.dart';
+import 'package:provider/provider.dart';
 
 class NewProjectPage extends StatefulWidget {
   @override
@@ -90,13 +93,17 @@ class _NewProjectPageState extends State<NewProjectPage> {
     //TODO save project state
     if (!_formKey.currentState.validate()) return;
 
-    print("VALID:${[name, sentencesPath, language]}");
+    Provider.of<GlobalProvider>(context, listen: false).currProject = name;
+    // Projects.addProject(p);
 
-    return;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => EditorPage(),
+        builder: (BuildContext context) => ChangeNotifierProvider(
+          create: (ctx) =>
+              Project.fromSentencesFile(name, sentencesPath, language),
+          child: EditorPage(),
+        ),
       ),
     );
   }

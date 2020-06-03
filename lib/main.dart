@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kali_editor/pages/editor.dart';
 import 'package:kali_editor/pages/welcome.dart';
 import 'package:kali_editor/providers/global_provider.dart';
+import 'package:kali_editor/providers/project.dart';
 import "package:provider/provider.dart";
 
 void main() => runApp(MyApp());
@@ -43,7 +44,12 @@ class MyMaterialApp extends StatelessWidget {
     return MaterialApp(
       theme: globalProvider.isDarkMode ? _darkTheme : _lightTheme,
       title: 'Kali Editor',
-      home: globalProvider.isNewcomer ? WelcomePage() : EditorPage(),
+      home: globalProvider.isNewcomer
+          ? WelcomePage()
+          : ChangeNotifierProvider(
+              create: (ctx) => Project(globalProvider.currProject),
+              child: EditorPage(),
+            ),
     );
   }
 }

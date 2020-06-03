@@ -31,7 +31,7 @@ class GlobalProvider with ChangeNotifier {
     Map<String, dynamic> jsonObject = await readJsonIfExists(await _path);
     if (jsonObject == null) return;
     _isDarkMode = jsonObject["isDarkMode"] as bool;
-    _currProject = jsonObject["_currProject"] as String;
+    _currProject = jsonObject["currProject"] as String;
     notifyListeners();
   }
 
