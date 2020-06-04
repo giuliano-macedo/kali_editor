@@ -1,5 +1,8 @@
-// TODO ad read/write permissions in android/ios
-
+// can't do that without ´flutter build ios´
+// Since 1.7.0 sub-dependencies,
+// you will need to add use_frameworks! to your <project root>/ios/Podfile.
+// target 'Runner' do
+//   use_frameworks!
 import 'package:flutter/material.dart';
 import 'package:kali_editor/pages/editor.dart';
 import 'package:kali_editor/pages/welcome.dart';
