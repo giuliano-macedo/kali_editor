@@ -8,6 +8,7 @@ import 'package:kali_editor/pages/editor.dart';
 import 'package:kali_editor/pages/welcome.dart';
 import 'package:kali_editor/providers/global_provider.dart';
 import 'package:kali_editor/providers/project.dart';
+import 'package:kali_editor/providers/projects.dart';
 import "package:provider/provider.dart";
 
 void main() => runApp(MyApp());
@@ -36,9 +37,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (ctx) => GlobalProvider(),
-        ),
+        ChangeNotifierProvider(create: (ctx) => GlobalProvider()),
+        ChangeNotifierProvider(create: (ctx) => Projects()),
       ],
       child: MyMaterialApp(),
     );

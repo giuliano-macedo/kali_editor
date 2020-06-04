@@ -1,5 +1,7 @@
 import 'package:kali_editor/providers/global_provider.dart';
 import 'package:kali_editor/providers/project.dart';
+import 'package:kali_editor/providers/projects.dart';
+import 'package:kali_editor/widgets/err_dialog.dart';
 import "package:kali_editor/widgets/file_picker_form_field.dart";
 import "package:flutter/material.dart";
 import 'package:kali_editor/pages/editor.dart';
@@ -88,14 +90,17 @@ class _NewProjectPageState extends State<NewProjectPage> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     _clearFocus();
     //TODO save project state
     if (!_formKey.currentState.validate()) return;
-
+    final projects = Provider.of<Projects>(context, listen: false);
+    await projects.init;
+    if (projects.contains(name)) {
+      return ErrDialog.dialog(context, "Project '$name' already exists");
+    }
+    projects.add(name);
     Provider.of<GlobalProvider>(context, listen: false).currProject = name;
-    // Projects.addProject(p);
-
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

@@ -20,19 +20,19 @@ class GlobalProvider with ChangeNotifier {
     return "$_docPath/$_jsonPath";
   }
 
-  _save() async {
-    await saveJsonFile(await _path, {
-      "isDarkMode": _isDarkMode,
-      "currProject": _currProject,
-    });
-  }
-
   _read() async {
     Map<String, dynamic> jsonObject = await readJsonIfExists(await _path);
     if (jsonObject == null) return;
     _isDarkMode = jsonObject["isDarkMode"] as bool;
     _currProject = jsonObject["currProject"] as String;
     notifyListeners();
+  }
+
+  _save() async {
+    await saveJsonFile(await _path, {
+      "isDarkMode": _isDarkMode,
+      "currProject": _currProject,
+    });
   }
 
   get isDarkMode => _isDarkMode;

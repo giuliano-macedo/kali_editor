@@ -4,7 +4,6 @@ import 'package:auto_orientation/auto_orientation.dart';
 import "package:flutter/material.dart";
 import 'package:kali_editor/core/stroke.dart';
 import 'package:kali_editor/pages/settings.dart';
-import 'package:kali_editor/providers/global_provider.dart';
 import 'package:kali_editor/providers/project.dart';
 import "package:kali_editor/widgets/drawable_canvas.dart";
 import 'package:provider/provider.dart';

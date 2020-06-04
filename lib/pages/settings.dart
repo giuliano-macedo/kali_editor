@@ -38,7 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
               //   onTap: () => null,
               // ),
               ListTile(
-                title: Text("New project"),
+                title: Text("New project"), //TODO editor still bellow stack
                 onTap: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
