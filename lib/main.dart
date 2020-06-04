@@ -9,7 +9,11 @@ import "package:provider/provider.dart";
 
 void main() => runApp(MyApp());
 
+const myCyan = Color.fromRGBO(0, 178, 255, 1);
+const myCyanDarkened = Color.fromRGBO(55, 67, 73, 1);
+
 ThemeData _lightTheme = ThemeData.light().copyWith(
+  primaryColor: myCyan,
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.blue,
     textTheme: ButtonTextTheme.primary,
@@ -17,6 +21,7 @@ ThemeData _lightTheme = ThemeData.light().copyWith(
 );
 
 ThemeData _darkTheme = ThemeData.dark().copyWith(
+  primaryColor: myCyanDarkened,
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.white,
     textTheme: ButtonTextTheme.primary,
