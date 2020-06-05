@@ -92,7 +92,6 @@ class _NewProjectPageState extends State<NewProjectPage> {
 
   void _submit() async {
     _clearFocus();
-    //TODO save project state
     if (!_formKey.currentState.validate()) return;
     final projects = Provider.of<Projects>(context, listen: false);
     await projects.init;

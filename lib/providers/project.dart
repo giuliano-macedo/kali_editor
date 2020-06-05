@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:kali_editor/core/strokes_file_stream.dart';
+import 'package:kali_editor/utils/dataset_dir.dart';
 import 'package:kali_editor/utils/json_utils.dart';
 import 'package:path_provider/path_provider.dart' as syspath;
 import 'package:flutter/foundation.dart';
+import "dart:math";
 
 class Sentence {
   String value;
@@ -13,11 +15,14 @@ class Sentence {
   }
 }
 
+double _log10(double x) => log(x) / log(10);
+
 class Project with ChangeNotifier {
   String _name;
   List<Sentence> _sentences = [];
   String _language;
   String _docPath;
+  String _sdPath;
   Future<void> init;
 
   Project(this._name) {
@@ -37,6 +42,12 @@ class Project with ChangeNotifier {
     if (_docPath == null)
       _docPath = (await syspath.getApplicationDocumentsDirectory()).path;
     return "$_docPath/$_name.json";
+  }
+
+  get sdPath async {
+    if (_sdPath == null)
+      _sdPath = (await syspath.getExternalStorageDirectory()).path;
+    return _sdPath;
   }
 
   Future<void> _read() async {
@@ -66,9 +77,12 @@ class Project with ChangeNotifier {
     });
   }
 
-  StrokesFileStream getStrokeFileStreamAt(int index) {
-    //TODO create directories if needed in the sdcard, and return the stream
-    return null;
+  Future<StrokesFileStream> getStrokeFileStreamAt(int index) async {
+    assert(index < sentences.length && index >= 0);
+    final datasetDir = DatasetDir(await sdPath, name);
+    final n = _log10(sentences.length).ceil().toInt();
+    final fileName = index.toString().padLeft(n);
+    return StrokesFileStream("${datasetDir.datasetPath}/$fileName.csv");
   }
 
   void setSentenceEdited(int index) {
