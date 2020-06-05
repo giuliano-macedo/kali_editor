@@ -29,13 +29,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 height: 20,
                 thickness: 2,
               ),
-              // REMOVED TO WASTE LESS TIME IN DEV
+              // TODO_LATER
               // ListTile(
               //   title: Text("Project path"),
               //   trailing: Text("/mnt/storage/todo"),
               //   onTap: () => null,
               // ),
-              //this is easier, but have the push multiple editors on top of each other
+              //push multiple editors on top of each other problem
               // ListTile(
               //   title: Text("New project"),
               //   onTap: () => Navigator.pushReplacement(
