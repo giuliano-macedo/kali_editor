@@ -21,6 +21,7 @@ class Project with ChangeNotifier {
   String _name;
   List<Sentence> _sentences = [];
   String _language;
+  int _currentSentenceIndex;
   String _docPath;
   String _sdPath;
   Future<void> init;
@@ -63,6 +64,7 @@ class Project with ChangeNotifier {
       );
     }).toList();
     _language = jsonObject["language"] as String;
+    _currentSentenceIndex = jsonObject["currentSentenceIndex"] as int;
 
     notifyListeners();
   }
@@ -74,6 +76,7 @@ class Project with ChangeNotifier {
           .map((sentence) => [sentence.value, sentence.isEdited])
           .toList(),
       "language": _language,
+      "currentSentenceIndex": _currentSentenceIndex,
     });
   }
 
@@ -85,6 +88,9 @@ class Project with ChangeNotifier {
     return StrokesFileStream("${datasetDir.datasetPath}/$fileName.csv");
   }
 
+  Future<StrokesFileStream> getCurrentFileStream() =>
+      getStrokeFileStreamAt(_currentSentenceIndex);
+
   void setSentenceEdited(int index) {
     _sentences[index].isEdited = true;
     _save();
@@ -94,4 +100,10 @@ class Project with ChangeNotifier {
   get name => _name;
   get sentences => _sentences;
   get language => _language;
+  get currentSentenceIndex => _currentSentenceIndex;
+
+  set currentSentenceIndex(int value) {
+    _currentSentenceIndex = value;
+    notifyListeners();
+  }
 }
