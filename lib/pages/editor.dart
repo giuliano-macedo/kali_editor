@@ -38,8 +38,7 @@ class _EditorPageState extends State<EditorPage> {
   }
   @override
   Widget build(BuildContext context) {
-    final p = Provider.of<Project>(context);
-    print("${[p.name, p.sentences, p.language]}");
+    final project = Provider.of<Project>(context);
     if (!isLandscape) {
       //not sure if needed
       AutoOrientation.landscapeAutoMode();
@@ -109,18 +108,30 @@ class _EditorPageState extends State<EditorPage> {
       ),
       appBar: AppBar(
         centerTitle: true,
-        title: InkWell(
-          child: Text("<current strokes>"),
-          onTap: () => null, //todo maybe
+        title: FlatButton(
+          padding: EdgeInsets.all(20),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+          child: Text(
+            project.getCurrentSentenceName(),
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          onPressed: () => null,
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_left),
-          onPressed: () {}, //TODO: add functionality
+          onPressed: () {
+            if (project.currentSentenceIndex != 0)
+              project.currentSentenceIndex--;
+          },
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.arrow_right),
-            onPressed: () {}, //TODO: add functionality
+            onPressed: () {
+              if (project.currentSentenceIndex != project.sentences.length - 1)
+                project.currentSentenceIndex++;
+            },
           ),
         ],
       ),

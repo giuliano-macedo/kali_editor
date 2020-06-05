@@ -21,7 +21,7 @@ class Project with ChangeNotifier {
   String _name;
   List<Sentence> _sentences = [];
   String _language;
-  int _currentSentenceIndex;
+  int _currentSentenceIndex = 0;
   String _docPath;
   String _sdPath;
   Future<void> init;
@@ -88,14 +88,17 @@ class Project with ChangeNotifier {
     return StrokesFileStream("${datasetDir.datasetPath}/$fileName.csv");
   }
 
-  Future<StrokesFileStream> getCurrentFileStream() =>
+  Future<StrokesFileStream> getCurrentSentenceStrokeFileStream() =>
       getStrokeFileStreamAt(_currentSentenceIndex);
+  String getCurrentSentenceName() => sentences[_currentSentenceIndex].value;
 
   void setSentenceEdited(int index) {
     _sentences[index].isEdited = true;
     _save();
     notifyListeners();
   }
+
+  void setCurrentSentenceEdited() => setSentenceEdited(_currentSentenceIndex);
 
   get name => _name;
   get sentences => _sentences;
@@ -104,6 +107,7 @@ class Project with ChangeNotifier {
 
   set currentSentenceIndex(int value) {
     _currentSentenceIndex = value;
+    _save();
     notifyListeners();
   }
 }
