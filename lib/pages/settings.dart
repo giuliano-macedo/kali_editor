@@ -3,8 +3,6 @@ import 'package:kali_editor/providers/global_provider.dart';
 import 'package:provider/provider.dart';
 import "package:package_info/package_info.dart";
 
-import 'new_project.dart';
-
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -37,15 +35,16 @@ class _SettingsPageState extends State<SettingsPage> {
               //   trailing: Text("/mnt/storage/todo"),
               //   onTap: () => null,
               // ),
-              ListTile(
-                title: Text("New project"), //TODO editor still bellow stack
-                onTap: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => NewProjectPage(),
-                  ),
-                ),
-              ),
+              //this is easier, but have the push multiple editors on top of each other
+              // ListTile(
+              //   title: Text("New project"),
+              //   onTap: () => Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (BuildContext context) => NewProjectPage(),
+              //     ),
+              //   ),
+              // ),
               FutureBuilder(
                 future: PackageInfo.fromPlatform(),
                 builder: (_, AsyncSnapshot<PackageInfo> snapshot) =>
@@ -57,7 +56,12 @@ class _SettingsPageState extends State<SettingsPage> {
                               context: context,
                               applicationName: "Kali Editor",
                               applicationVersion: snapshot.data.version,
-                              applicationIcon: null, //TODO add appicon
+                              applicationIcon: Image(
+                                image: AssetImage(
+                                  "assets/launcher/icon_adaptive.png",
+                                ),
+                                width: 200,
+                              ),
                               applicationLegalese:
                                   "A tool to generate online handwriting sequences in any language, based on some list of senteces",
                             ),

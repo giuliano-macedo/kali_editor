@@ -15,7 +15,7 @@ class Sentence {
   }
 }
 
-double _log10(double x) => log(x) / log(10);
+double _log10(double x) => log(x) / ln10;
 
 class Project with ChangeNotifier {
   String _name;
