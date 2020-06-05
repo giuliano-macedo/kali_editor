@@ -18,9 +18,10 @@ class Project with ChangeNotifier {
   List<Sentence> _sentences = [];
   String _language;
   String _docPath;
+  Future<void> init;
 
   Project(this._name) {
-    _read();
+    init = _read();
   }
 
   Project.fromSentencesFile(this._name, String path, this._language) {
@@ -38,7 +39,7 @@ class Project with ChangeNotifier {
     return "$_docPath/$_name.json";
   }
 
-  _read() async {
+  Future<void> _read() async {
     Map<String, dynamic> jsonObject = await readJsonIfExists(await _path);
     if (jsonObject == null) return;
 

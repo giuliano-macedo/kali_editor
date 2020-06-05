@@ -8,10 +8,11 @@ class GlobalProvider with ChangeNotifier {
   String _jsonPath;
 
   String _docPath;
+  Future<void> init;
 
   GlobalProvider([fileName = "global_provider.json"]) {
     _jsonPath = fileName;
-    _read();
+    init = _read();
   }
 
   get _path async {
@@ -20,7 +21,7 @@ class GlobalProvider with ChangeNotifier {
     return "$_docPath/$_jsonPath";
   }
 
-  _read() async {
+  Future<void> _read() async {
     Map<String, dynamic> jsonObject = await readJsonIfExists(await _path);
     if (jsonObject == null) return;
     _isDarkMode = jsonObject["isDarkMode"] as bool;
